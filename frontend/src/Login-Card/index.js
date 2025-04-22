@@ -10,6 +10,7 @@ function LoginCard() {
     const handleSubmit = (e) => {
 
         e.preventDefault();
+
         const formData = new FormData(form.current);
         const data = Object.fromEntries(formData.entries());
 
@@ -19,14 +20,9 @@ function LoginCard() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(data)
-        }).then(response => {
-            if (response.ok) {
-                return response.text();
-            } else {
-                throw new Error('Network response was not ok');
-            }
-        })
-            .then(text => console.log(text)).catch(error => console.error('Error:', error));
+        }).then(response => response.text())
+        .then(text => console.log(text))
+        .catch(error => console.error('Error:', error));
 
     }
 
@@ -76,7 +72,7 @@ function LoginCard() {
                 </p>
             </div>
             <div className="footer">
-                <p>&copy; 2023 Nylo App. All rights reserved.</p>
+                <p>&copy; 2025 Nylo App. All rights reserved.</p>
                 <p>Privacy Policy | Terms of Service</p>
             </div>
         </div>

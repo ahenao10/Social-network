@@ -59,35 +59,6 @@ def api_info():
         "nombre": "Nylo app"
     }
     return jsonify(data)
-
-@app.route("/user/create", methods=['GET', 'POST'])
-def create_user():
-    content= request.get_json()
-    
-    name= content['name']
-    lastname= content['lastname']
-    user= content['user']
-    email= content['email']
-    password= content['password']
-    
-    print(user, password)
-    # pass= request.json.pass
-    # print(content)
-    
-    user_db = User(
-        id=1,
-        name=name,
-        lastname=lastname,
-        user=user,
-        email=email,
-        password=password
-    )
-    
-    db.session.add(user_db)
-    db.session.commit()
-    
-    return 'Creada la base de datos'
-    # return jsonify(data)
     
 @app.route("/user/login", methods=['GET', 'POST'])
 def login_user():
@@ -95,9 +66,43 @@ def login_user():
     
     username= content['username']
     password= content['password']
-    print(username, password)
+    
+    user = db.session.query(User).filter_by(user=username).one_or_none()
+    
+    print(user)
+    
+    if user is None:
+        return 'Usuario no encontrado', 404
+    else:
+        if user.password != password:
+            return 'Contraseña incorrecta', 401
     
     return 'Login exitoso', 200
+
+@app.route("/user/sing-up", methods=['GET', 'POST'])
+def register_user():
+    content= request.get_json()
+    
+    name= content['name']
+    lastname= content['lastname']
+    user= content['username']
+    email= content['email']
+    password= content['password']
+    
+    db_user= User(
+        name=name,
+        lastname=lastname,
+        user=user,
+        email=email,
+        password=password
+    )
+    
+    # db.session.add(db_user)
+    # db.session.commit()
+    
+    print(db_user)
+    
+    return 'Creado el usuario', 200    
     
 @app.route("/user/info")
 def obtain_user():
