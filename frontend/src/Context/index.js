@@ -13,6 +13,8 @@ function AuthProvider({ children }) {
 
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [user, setUser] = useState(null);
+    
+    const [openAuthLoginModal, setOpenAuthLoginModal] = useState(false);
 
     const login = (userData) => {
         setIsAuthenticated(true);
@@ -29,6 +31,8 @@ function AuthProvider({ children }) {
             URLAPI,
             isAuthenticated,
             user,
+            openAuthLoginModal,
+            setOpenAuthLoginModal,
             login,
             logout
         }}>

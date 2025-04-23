@@ -3,7 +3,7 @@ import { AuthContext } from '../Context';
 
 function LoginCard() {
 
-    const { URLAPI } = useContext(AuthContext);
+    const { URLAPI, setOpenAuthLoginModal } = useContext(AuthContext);
 
     const form = useRef(null);
 
@@ -20,9 +20,20 @@ function LoginCard() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(data)
-        }).then(response => response.text())
-        .then(text => console.log(text))
-        .catch(error => console.error('Error:', error));
+        })
+            .then(response => response.status)
+            .then(status => {
+                if (status === 200) {
+                    console.log('Login successful!');
+                } else if (status === 401 || status === 404) {
+                    setOpenAuthLoginModal(true);
+                    console.log('Invalid credentials!');
+                }
+            })
+
+        // response.text())
+        // .then(text => console.log(text))
+        // .catch(error => console.error('Error:', error));
 
     }
 
@@ -45,7 +56,13 @@ function LoginCard() {
 
                     <div className="input-group">
                         <label htmlFor="username">Username</label>
-                        <input name='username' type="text" id="username" placeholder="Enter your username" required />
+                        <input name='username'
+                            type="text"
+                            id="username"
+                            placeholder="Enter your username"
+                            required
+                            autoComplete='off'
+                        />
                     </div>
 
                     <div className="input-group">
@@ -53,7 +70,12 @@ function LoginCard() {
                             <label htmlFor="password">Password</label>
                             <a href="/forgot-password" className="forgot-password-link">Forgot password?</a>
                         </div>
-                        <input name='password' type="password" id="password" placeholder="Enter your password" required />
+                        <input name='password'
+                            type="password"
+                            id="password"
+                            placeholder="Enter your password"
+                            required
+                        />
                     </div>
 
                     <input type="checkbox" id="remember-me" />
