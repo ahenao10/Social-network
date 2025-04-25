@@ -1,4 +1,5 @@
 import { useRef, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../Context';
 
 function LoginCard() {
@@ -6,6 +7,12 @@ function LoginCard() {
     const { URLAPI, setOpenAuthLoginModal } = useContext(AuthContext);
 
     const form = useRef(null);
+
+    const navigate = useNavigate();
+
+    const goToRegister = () => {
+        navigate('/register');
+    }
 
     const handleSubmit = (e) => {
 
@@ -68,7 +75,7 @@ function LoginCard() {
                     <div className="input-group">
                         <div className="password-group">
                             <label htmlFor="password">Password</label>
-                            <a href="/forgot-password" className="forgot-password-link">Forgot password?</a>
+                            <a href="#" className="forgot-password-link">Forgot password?</a>
                         </div>
                         <input name='password'
                             type="password"
@@ -90,7 +97,7 @@ function LoginCard() {
                     <button className="facebook-button">Facebook</button>
                 </div>
                 <p className="register-link">
-                    Don't have an account? <a href="/register">Register here</a>
+                    Don't have an account? <a href="#" onClick={goToRegister} >Register here</a>
                 </p>
             </div>
             <div className="footer">

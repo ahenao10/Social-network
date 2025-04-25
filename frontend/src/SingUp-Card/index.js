@@ -1,8 +1,18 @@
-import { useRef } from 'react';
+import { useRef, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../Context';
 
 function SignUpCard() {
 
   const form = useRef(null);
+
+  const { URLAPI } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+
+  const goToLogin = () => {
+    navigate('/');
+  }
 
   const handleSubmit = (e) => {
 
@@ -10,7 +20,7 @@ function SignUpCard() {
     const formData = new FormData(form.current);
     const data = Object.fromEntries(formData.entries());
 
-    fetch('http://127.0.0.1:5000/user/sing-up', {
+    fetch(`${URLAPI}/user/sing-up`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -81,7 +91,7 @@ function SignUpCard() {
         </div>
 
         <p className="login-link">
-          Already have an account? <a href="/login">Login here</a>
+          Already have an account? <a href="#" onClick={goToLogin}>Login here</a>
         </p>
 
       </div>
